@@ -1,9 +1,22 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Plus } from "lucide-react";
-export default function Home() {
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { employee } from "@/types/employee";
+import { ClipboardEdit, Plus, Trash2 } from "lucide-react";
+
+export default async function Home() {
+  const data = await fetch("https://api-testefrontend.qforms.com.br/employees");
+  const employees = (await data.json()) as employee[];
+
   return (
     <div
       id="employees-page"
@@ -59,16 +72,58 @@ export default function Home() {
             <Table>
               <TableHeader className="bg-table-title">
                 <TableRow>
-                  <TableHead>Nome</TableHead>
-                  <TableHead>E-mail</TableHead>
-                  <TableHead>CPF</TableHead>
-                  <TableHead>Celular</TableHead>
-                  <TableHead>Data de Nascimento</TableHead>
-                  <TableHead>Tipo de Contratação</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Ação</TableHead>
+                  <TableHead className="font-bold">Nome</TableHead>
+                  <TableHead className="font-bold">E-mail</TableHead>
+                  <TableHead className="font-bold">CPF</TableHead>
+                  <TableHead className="font-bold">Celular</TableHead>
+                  <TableHead className="font-bold">
+                    Data de Nascimento
+                  </TableHead>
+                  <TableHead className="font-bold">
+                    Tipo de Contratação
+                  </TableHead>
+                  <TableHead className="font-bold text-center">
+                    Status
+                  </TableHead>
+                  <TableHead className="font-bold text-center">Ação</TableHead>
                 </TableRow>
               </TableHeader>
+
+              <TableBody>
+                {employees.map((employee) => (
+                  <TableRow key={employee.id}>
+                    <TableCell>{employee.name}</TableCell>
+                    <TableCell>{employee.email}</TableCell>
+                    <TableCell>{employee.cpf}</TableCell>
+                    <TableCell>{employee.phone}</TableCell>
+                    <TableCell>{employee.dateOfBith}</TableCell>
+                    <TableCell>{employee.typeOfHiring}</TableCell>
+                    <TableCell>
+                      <div className="flex justify-center items-center">
+                        {employee.status ? (
+                          <Badge className="bg-green-300 text-black font-bold">
+                            Ativo
+                          </Badge>
+                        ) : (
+                          <Badge className="bg-red-300 text-black font-bold">
+                            Inativo
+                          </Badge>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex justify-center items-center">
+                        <Button variant="ghost">
+                          <ClipboardEdit />
+                        </Button>
+                        <Button variant="ghost">
+                          <Trash2 />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
             </Table>
           </div>
         </div>
