@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/table";
 import { employee } from "@/types/employee";
 import { ClipboardEdit, Plus, Trash2 } from "lucide-react";
+import Link from "next/link";
 
 export default async function Home() {
   const data = await fetch("https://api-testefrontend.qforms.com.br/employees");
@@ -61,13 +62,18 @@ export default async function Home() {
                 placeholder="Buscar Funcionário..."
               />
               <Button>
-                <Plus /> Novo Funcionário
+                <Link
+                  href={`edit/new`}
+                  className="flex justify-center items-center gap-2"
+                >
+                  <Plus /> Novo Funcionário
+                </Link>
               </Button>
             </Field>
           </div>
           <div
             id="employees-content-table"
-            className="flex flex-1 flex-row justify-between items-center"
+            className="flex rounded-lg border overflow-hidden"
           >
             <Table>
               <TableHeader className="bg-table-title">
@@ -114,7 +120,9 @@ export default async function Home() {
                     <TableCell>
                       <div className="flex justify-center items-center">
                         <Button variant="ghost">
-                          <ClipboardEdit />
+                          <Link href={`edit/${employee.id}`}>
+                            <ClipboardEdit />
+                          </Link>
                         </Button>
                         <Button variant="ghost">
                           <Trash2 />
