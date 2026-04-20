@@ -3,18 +3,21 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { employee } from "@/types/employee";
 import { Field, FieldError, FieldGroup, FieldLabel } from "./ui/field";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { FormatDateToString, FormatFormDOBtoInput } from "@/app/utils";
+import { CreateEmployee, DeleteEmployee, UpdateEmployee } from "@/app/actions";
 
+// TODO colocar mascara nos inputs e rever como os dados são salvos: cpf / phone / dateOfBirth || react-number-format
 const formSchema = z.object({
   name: z
     .string()
     .min(6, "Nome do empregado deve ser por extenso.")
     .max(40, "Nome do empregado deve ter no máximo 40 caracteres."),
-  email: z.email(),
+  email: z.email({ message: "Insira um email válido." }),
   cpf: z
     .string()
     .regex(
@@ -27,9 +30,16 @@ const formSchema = z.object({
       /^\(\d{2}\) \d{5}-\d{4}$/,
       "Número de celular deve ser no formato (XX) XXXXX-XXXX",
     ),
-  dateOfBirth: z.iso.datetime().optional().or(z.literal("")),
-  typeOfHiring: z.enum(["CLT", "PJ"]),
-  status: z.boolean(),
+  // TODO checar como fazer esse input ser feito com z.iso.datetime()
+  // TODO checar se é possível fazer o input com date picker
+  dateOfBirth: z
+    .string()
+    .regex(
+      /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/,
+      "Data inválida.",
+    ),
+  typeOfHiring: z.enum(["CLT", "PJ", ""]),
+  status: z.boolean({ message: "Selecione um status." }),
 });
 
 export default function EmployeeForm({ employee }: { employee?: employee }) {
@@ -40,14 +50,28 @@ export default function EmployeeForm({ employee }: { employee?: employee }) {
       email: employee?.email || "",
       cpf: employee?.cpf || "",
       phone: employee?.phone || "",
-      dateOfBirth: employee?.dateOfBith || "",
-      typeOfHiring: (employee?.typeOfHiring as "CLT" | "PJ") || "CLT",
-      status: employee?.status ?? false,
+      dateOfBirth: FormatDateToString(employee?.dateOfBith) || "",
+      typeOfHiring: (employee?.typeOfHiring as "CLT" | "PJ" | "") || "",
+      status: employee ? employee.status : undefined,
     },
   });
 
+  // TODO checar se precisa ser bloquear usuário durante uso
+  // TODO toaster
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
+    const dateOfBirth = FormatFormDOBtoInput(data.dateOfBirth);
+
+    if (employee && employee.id) {
+      UpdateEmployee({ ...data, id: employee.id, dateOfBith: dateOfBirth });
+    } else {
+      CreateEmployee({ ...data, dateOfBith: dateOfBirth });
+    }
+  }
+
+  // TODO checar se precisa ser bloquear usuário durante uso
+  // TODO toaster
+  function onDelete(id: number) {
+    if (id) DeleteEmployee(id);
   }
 
   return (
@@ -161,33 +185,25 @@ export default function EmployeeForm({ employee }: { employee?: employee }) {
             <Controller
               name="dateOfBirth"
               control={form.control}
-              render={({ field, fieldState }) => {
-                const date = field.value;
-                const formattedDate = date
-                  ? new Date(date).toLocaleDateString("pt-BR")
-                  : undefined;
-
-                return (
-                  <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel
-                      htmlFor="employee-form-dob"
-                      className="font-bold"
-                    >
-                      Data de Nascimento
-                    </FieldLabel>
-                    <Input
-                      {...field}
-                      id="employee-form-dob"
-                      aria-invalid={fieldState.invalid}
-                      value={formattedDate}
-                      placeholder="00/00/0000"
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                );
-              }}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel
+                    htmlFor="employee-form-dob"
+                    className="font-bold"
+                  >
+                    Data de Nascimento
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id="employee-form-dob"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="00/00/0000"
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
             />
 
             <Controller
@@ -206,7 +222,7 @@ export default function EmployeeForm({ employee }: { employee?: employee }) {
                     id="employee-form-hiring"
                     aria-invalid={fieldState.invalid}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                    value={employee ? field.value : ""}
+                    value={field.value}
                   >
                     <option
                       value=""
@@ -239,7 +255,13 @@ export default function EmployeeForm({ employee }: { employee?: employee }) {
                   <select
                     id="employee-form-status"
                     aria-invalid={fieldState.invalid}
-                    value={employee ? (field.value ? "true" : "false") : ""}
+                    value={
+                      field.value == undefined
+                        ? ""
+                        : field.value === true
+                          ? "true"
+                          : "false"
+                    }
                     onChange={(e) => field.onChange(e.target.value === "true")}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md"
                   >
@@ -266,15 +288,33 @@ export default function EmployeeForm({ employee }: { employee?: employee }) {
               orientation={"horizontal"}
               className="mt-4"
             >
-              <Button className="font-bold bg-delete p-4">Excluir</Button>
-              <Button className="font-bold p-4">Salvar</Button>
+              <Button
+                className="font-bold bg-delete p-4"
+                type="button"
+                onClick={() => onDelete(employee.id)}
+              >
+                Excluir
+              </Button>
+              <Button
+                className="font-bold p-4"
+                type="submit"
+                form="employee-form"
+              >
+                Salvar
+              </Button>
             </Field>
           ) : (
             <Field
               orientation={"horizontal"}
               className="mt-4"
             >
-              <Button className="font-bold p-4">Cadastrar</Button>
+              <Button
+                className="font-bold p-4"
+                type="submit"
+                form="employee-form"
+              >
+                Cadastrar
+              </Button>
             </Field>
           )}
         </form>

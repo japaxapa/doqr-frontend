@@ -1,20 +1,11 @@
+import { GetEmployee } from "@/app/actions";
 import EmployeeForm from "@/components/EmployeeForm";
 import HomeButton from "@/components/HomeButton";
-import { employee } from "@/types/employee";
-
-async function getEmployee(id: string): Promise<employee | undefined> {
-  const res = await fetch(
-    `https://api-testefrontend.qforms.com.br/employees/${id}`,
-  );
-
-  if (res.status !== 200) return undefined;
-  return res.json();
-}
 
 export default async function Edit({ params }: { params: { id: string } }) {
   const { id } = await params;
 
-  const employee = await getEmployee(id);
+  const employee = await GetEmployee(id);
 
   return (
     <div className="flex justify-center">
