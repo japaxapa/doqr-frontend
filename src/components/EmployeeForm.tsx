@@ -10,6 +10,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { FormatDateToString, FormatFormDOBtoInput } from "@/app/utils";
 import { CreateEmployee, DeleteEmployee, UpdateEmployee } from "@/app/actions";
+import { useHookFormMask } from "use-mask-input";
 
 // TODO colocar mascara nos inputs e rever como os dados são salvos: cpf / phone / dateOfBirth || react-number-format
 const formSchema = z.object({
@@ -55,6 +56,8 @@ export default function EmployeeForm({ employee }: { employee?: employee }) {
       status: employee ? employee.status : undefined,
     },
   });
+
+  const registerWithMask = useHookFormMask(form.register);
 
   // TODO checar se precisa ser bloquear usuário durante uso
   // TODO toaster
@@ -145,6 +148,7 @@ export default function EmployeeForm({ employee }: { employee?: employee }) {
                   </FieldLabel>
                   <Input
                     {...field}
+                    {...registerWithMask("cpf", "999.999.999-99")}
                     id="employee-form-cpf"
                     aria-invalid={fieldState.invalid}
                     placeholder="000.000.000-00"
@@ -170,6 +174,7 @@ export default function EmployeeForm({ employee }: { employee?: employee }) {
                   </FieldLabel>
                   <Input
                     {...field}
+                    {...registerWithMask("phone", "(99) 99999-9999")}
                     id="employee-form-phone"
                     aria-invalid={fieldState.invalid}
                     placeholder="(XX) XXXXX-XXXX"
@@ -195,6 +200,7 @@ export default function EmployeeForm({ employee }: { employee?: employee }) {
                   </FieldLabel>
                   <Input
                     {...field}
+                    {...registerWithMask("dateOfBirth", "99/99/9999")}
                     id="employee-form-dob"
                     aria-invalid={fieldState.invalid}
                     placeholder="00/00/0000"
