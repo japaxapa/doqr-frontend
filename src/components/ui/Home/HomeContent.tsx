@@ -27,10 +27,22 @@ export default function HomeContent({ employees }: IHomeContent) {
   const data = use(employees);
 
   const [displayedEmployees, setDisplayedEmployees] = useState<employee[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     setDisplayedEmployees(data);
   }, [data]);
+
+  useEffect(() => {
+    if (!searchTerm) {
+      setDisplayedEmployees(data);
+    } else {
+      const newArr = data.filter((employee) =>
+        employee.name.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
+      setDisplayedEmployees(newArr);
+    }
+  }, [searchTerm]);
 
   function onDelete(id: number) {
     if (id) {
@@ -54,6 +66,8 @@ export default function HomeContent({ employees }: IHomeContent) {
           <Input
             className="max-w-sm"
             placeholder="Buscar Funcionário..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <Button>
             <Link
