@@ -1,6 +1,6 @@
-import HomeHeader from "@/components/ui/Home/HomeHeader";
-import HomeContent from "@/components/ui/Home/HomeContent";
-import { GetEmployees } from "./actions";
+import HomeHeader from "@/components/Home/HomeHeader";
+import HomeContent from "@/components/Home/HomeContent";
+import { GetEmployees } from "./services/employee.service";
 
 export default function Home() {
   const employees = GetEmployees();

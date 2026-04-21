@@ -1,6 +1,6 @@
-import { GetEmployee } from "@/app/actions";
-import EmployeeForm from "@/components/EmployeeForm";
-import HomeButton from "@/components/HomeButton";
+import { GetEmployee } from "@/app/services/employee.service";
+import HomeButton from "@/components/common/HomeButton";
+import EmployeeForm from "@/components/Form/EmployeeForm";
 
 export default async function Edit({ params }: { params: { id: string } }) {
   const { id } = await params;
@@ -16,6 +16,7 @@ export default async function Edit({ params }: { params: { id: string } }) {
           <h1 className="font-bold text-4xl pb-2">Editar Funcionário</h1>
           <h2 className="font-bold text-xl">Empresa DoQR Tecnologia</h2>
         </div>
+
         <EmployeeForm employee={employee} />
       </div>
     </div>

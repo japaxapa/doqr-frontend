@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧑‍💼 CRUD de Funcionários
 
-## Getting Started
+Aplicação web desenvolvida com **Next.js**, **React 19** e **TypeScript** para gerenciamento de funcionários.
 
-First, run the development server:
+O sistema permite visualizar, criar, editar e validar dados de funcionários com uma interface moderna e componentes reutilizáveis.
+
+---
+
+## 🚀 Tecnologias Utilizadas
+
+* **Next.js 16**
+* **React 19**
+* **TypeScript**
+* **Tailwind CSS 4**
+* **shadcn/ui** (componentes acessíveis e modernos)
+* **React Hook Form** (gerenciamento de formulários)
+* **Zod** (validação de dados)
+* **Radix UI** (primitivos acessíveis)
+* **Lucide Icons** (ícones)
+* **clsx + tailwind-merge** (controle de classes)
+* **use-mask-input** (máscaras de input)
+
+---
+
+## 📦 Funcionalidades
+
+### 👥 Listagem de Funcionários
+
+* Visualização de todos os funcionários cadastrados
+* Interface limpa e organizada
+* Preparado para filtros e busca (se aplicável)
+
+### ✏️ Criação e Edição
+
+* Formulário reutilizável para criar ou editar funcionários
+* Validação de dados com **Zod**
+* Gerenciamento de estado com **React Hook Form**
+* Máscaras para inputs (ex: CPF, telefone)
+
+---
+
+## 📁 Estrutura do Projeto (Sugestão)
+
+```
+src/
+  app/
+    page.tsx        # Listagem de funcionários
+    edit/
+      [id]/
+        page.tsx      # Criar / Editar funcionário
+
+  components/
+    ui/               # Componentes do shadcn
+    commmon/          # Componentes genéricos
+    Home/             # Componentes da HomePage
+    Form/             # Componentes do formulário
+
+  schemas/
+    form.schema.ts
+
+  services/
+    employee.service.ts
+
+```
+
+---
+
+## 🛠️ Scripts Disponíveis
+
+```bash
+# Rodar ambiente de desenvolvimento
+npm run dev
+
+# Build de produção
+npm run build
+
+# Rodar aplicação em produção
+npm run start
+
+# Lint do projeto
+npm run lint
+```
+
+---
+
+## ⚙️ Como Rodar o Projeto
+
+### 1. Clonar o repositório
+
+```bash
+git clone <url-do-repositorio>
+cd fronted
+```
+
+### 2. Instalar dependências
+
+```bash
+npm install
+```
+
+### 3. Rodar o projeto
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+A aplicação estará disponível em:
+👉 http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧠 Padrões Utilizados
 
-## Learn More
+* **Separação de responsabilidades**
+* **Componentização**
+* **Validação centralizada com Zod**
+* **Formulários controlados com React Hook Form**
+* **Estilização com Tailwind + utilitários inteligentes**
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 👨‍💻 Autor
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Desenvolvido como projeto de prática para evolução em **frontend moderno**, focando em arquitetura escalável e boas práticas.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📄 Licença
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Este projeto é privado e destinado a fins de estudo.

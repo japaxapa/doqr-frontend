@@ -5,47 +5,24 @@ import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
 import { Card, CardContent } from "@/components/ui/card";
 import { employee } from "@/types/employee";
-import { Field, FieldError, FieldGroup, FieldLabel } from "./ui/field";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 import { FormatDateToString, FormatFormDOBtoInput } from "@/app/utils";
-import { CreateEmployee, DeleteEmployee, UpdateEmployee } from "@/app/actions";
+import {
+  CreateEmployee,
+  DeleteEmployee,
+  UpdateEmployee,
+} from "@/app/services/employee.service";
 import { useHookFormMask } from "use-mask-input";
+import { formSchema } from "@/app/schemas/form.schema";
 
 // TODO colocar mascara nos inputs e rever como os dados são salvos: cpf / phone / dateOfBirth || react-number-format
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(6, "Nome do empregado deve ser por extenso.")
-    .max(40, "Nome do empregado deve ter no máximo 40 caracteres."),
-  email: z.email({ message: "Insira um email válido." }),
-  cpf: z
-    .string()
-    .regex(
-      /^\d{3}\.\d{3}\.\d{3}-\d{2}$/,
-      "CPF inválido. Use o formato 000.000.000-00",
-    ),
-  phone: z
-    .string()
-    .regex(
-      /^\(\d{2}\) \d{5}-\d{4}$/,
-      "Número de celular deve ser no formato (XX) XXXXX-XXXX",
-    ),
-  // TODO checar como fazer esse input ser feito com z.iso.datetime()
-  // TODO checar se é possível fazer o input com date picker
-  dateOfBirth: z
-    .string()
-    .regex(
-      /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/,
-      "Data inválida.",
-    ),
-  typeOfHiring: z.enum(["CLT", "PJ", ""]),
-  status: z.boolean({ message: "Selecione um status." }),
-});
+const schema = formSchema;
 
 export default function EmployeeForm({ employee }: { employee?: employee }) {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
     defaultValues: {
       name: employee?.name || "",
       email: employee?.email || "",
@@ -61,7 +38,7 @@ export default function EmployeeForm({ employee }: { employee?: employee }) {
 
   // TODO checar se precisa ser bloquear usuário durante uso
   // TODO toaster
-  function onSubmit(data: z.infer<typeof formSchema>) {
+  function onSubmit(data: z.infer<typeof schema>) {
     const dateOfBirth = FormatFormDOBtoInput(data.dateOfBirth);
 
     if (employee && employee.id) {

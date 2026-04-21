@@ -1,8 +1,8 @@
 "use client";
 
-import { Field } from "../field";
-import { Input } from "../input";
-import { Button } from "../button";
+import { Field } from "../ui/field";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 import Link from "next/link";
 import { ClipboardEdit, Plus, Trash2 } from "lucide-react";
 import {
@@ -12,10 +12,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../table";
+} from "../ui/table";
 import { FormatDateToString } from "@/app/utils";
-import { Badge } from "../badge";
-import { DeleteEmployee } from "@/app/actions";
+import { Badge } from "../ui/badge";
+import { DeleteEmployee } from "@/app/services/employee.service";
 import { employee } from "@/types/employee";
 import { use, useEffect, useState } from "react";
 
@@ -24,6 +24,7 @@ interface IHomeContent {
 }
 
 export default function HomeContent({ employees }: IHomeContent) {
+  // TODO fazer um custom hook
   const data = use(employees);
 
   const [displayedEmployees, setDisplayedEmployees] = useState<employee[]>([]);
@@ -50,6 +51,7 @@ export default function HomeContent({ employees }: IHomeContent) {
     }
   }
 
+  // TODO fazer um componente para a tabela
   return (
     <div
       id="employees-content"
