@@ -1,6 +1,8 @@
-import { GetEmployee } from "@/app/services/employee.service";
 import HomeButton from "@/components/common/HomeButton";
+import PageContainer from "@/components/common/PageContainer";
+import PageHeader from "@/components/common/PageHeader";
 import EmployeeForm from "@/components/Form/EmployeeForm";
+import { GetEmployee } from "@/services/employee.service";
 
 export default async function Edit({ params }: { params: { id: string } }) {
   const { id } = await params;
@@ -8,17 +10,16 @@ export default async function Edit({ params }: { params: { id: string } }) {
   const employee = await GetEmployee(id);
 
   return (
-    <div className="flex justify-center">
-      <div className="flex-1 flex-col max-w-7xl py-6">
-        <HomeButton />
+    <PageContainer page="employee" styles="py-8">
+      <HomeButton />
 
-        <div className="flex flex-col py-4">
-          <h1 className="font-bold text-4xl pb-2">Editar Funcionário</h1>
-          <h2 className="font-bold text-xl">Empresa DoQR Tecnologia</h2>
-        </div>
+      <PageHeader
+        page="employee"
+        title="Editar Funcionário"
+        sub="Empresa DoQR Tecnologia"
+      />
 
-        <EmployeeForm employee={employee} />
-      </div>
-    </div>
+      <EmployeeForm employee={employee} />
+    </PageContainer>
   );
 }

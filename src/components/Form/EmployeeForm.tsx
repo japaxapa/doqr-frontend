@@ -1,44 +1,29 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
-import * as z from "zod";
+import { Controller } from "react-hook-form";
 import { Card, CardContent } from "@/components/ui/card";
 import { employee } from "@/types/employee";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { FormatDateToString, FormatFormDOBtoInput } from "@/app/utils";
+import { FormatFormDOBtoInput } from "@/utils";
+import { useHookFormMask } from "use-mask-input";
+import { CreateForm } from "@/schemas/form.schema";
+import type { employeeFormData } from "@/schemas/form.schema";
 import {
   CreateEmployee,
   DeleteEmployee,
   UpdateEmployee,
-} from "@/app/services/employee.service";
-import { useHookFormMask } from "use-mask-input";
-import { formSchema } from "@/app/schemas/form.schema";
-
-// TODO colocar mascara nos inputs e rever como os dados são salvos: cpf / phone / dateOfBirth || react-number-format
-const schema = formSchema;
+} from "@/services/employee.service";
 
 export default function EmployeeForm({ employee }: { employee?: employee }) {
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      name: employee?.name || "",
-      email: employee?.email || "",
-      cpf: employee?.cpf || "",
-      phone: employee?.phone || "",
-      dateOfBirth: FormatDateToString(employee?.dateOfBith) || "",
-      typeOfHiring: (employee?.typeOfHiring as "CLT" | "PJ" | "") || "",
-      status: employee ? employee.status : undefined,
-    },
-  });
+  const form = CreateForm(employee);
 
   const registerWithMask = useHookFormMask(form.register);
 
-  // TODO checar se precisa ser bloquear usuário durante uso
   // TODO toaster
-  function onSubmit(data: z.infer<typeof schema>) {
+  // TODO checar se precisa ser bloquear usuário durante uso
+  function onSubmit(data: employeeFormData) {
     const dateOfBirth = FormatFormDOBtoInput(data.dateOfBirth);
 
     if (employee && employee.id) {
@@ -48,12 +33,14 @@ export default function EmployeeForm({ employee }: { employee?: employee }) {
     }
   }
 
-  // TODO checar se precisa ser bloquear usuário durante uso
   // TODO toaster
+  // TODO modal para confirmação
+  // TODO checar se precisa ser bloquear usuário durante uso
   function onDelete(id: number) {
     if (id) DeleteEmployee(id);
   }
 
+  // TODO extrair inputs
   return (
     <Card>
       <CardContent>

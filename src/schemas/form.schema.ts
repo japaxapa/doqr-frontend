@@ -1,5 +1,9 @@
 "use client";
 
+import type { employee } from "@/types/employee";
+import { FormatDateToString } from "@/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 export const formSchema = z.object({
@@ -31,3 +35,21 @@ export const formSchema = z.object({
   typeOfHiring: z.enum(["CLT", "PJ", ""]),
   status: z.boolean({ message: "Selecione um status." }),
 });
+
+export function CreateForm(employee?: employee) {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: employee?.name || "",
+      email: employee?.email || "",
+      cpf: employee?.cpf || "",
+      phone: employee?.phone || "",
+      dateOfBirth: FormatDateToString(employee?.dateOfBith) || "",
+      typeOfHiring: (employee?.typeOfHiring as "CLT" | "PJ" | "") || "",
+      status: employee ? employee.status : undefined,
+    },
+  });
+  return form;
+}
+
+export type employeeFormData = z.infer<typeof formSchema>;

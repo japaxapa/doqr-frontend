@@ -8,17 +8,17 @@ O sistema permite visualizar, criar, editar e validar dados de funcionários com
 
 ## 🚀 Tecnologias Utilizadas
 
-* **Next.js 16**
-* **React 19**
-* **TypeScript**
-* **Tailwind CSS 4**
-* **shadcn/ui** (componentes acessíveis e modernos)
-* **React Hook Form** (gerenciamento de formulários)
-* **Zod** (validação de dados)
-* **Radix UI** (primitivos acessíveis)
-* **Lucide Icons** (ícones)
-* **clsx + tailwind-merge** (controle de classes)
-* **use-mask-input** (máscaras de input)
+- **Next.js 16**
+- **React 19**
+- **TypeScript**
+- **Tailwind CSS 4**
+- **shadcn/ui** (componentes acessíveis e modernos)
+- **React Hook Form** (gerenciamento de formulários)
+- **Zod** (validação de dados)
+- **Radix UI** (primitivos acessíveis)
+- **Lucide Icons** (ícones)
+- **clsx + tailwind-merge** (controle de classes)
+- **use-mask-input** (máscaras de input)
 
 ---
 
@@ -26,16 +26,16 @@ O sistema permite visualizar, criar, editar e validar dados de funcionários com
 
 ### 👥 Listagem de Funcionários
 
-* Visualização de todos os funcionários cadastrados
-* Interface limpa e organizada
-* Preparado para filtros e busca (se aplicável)
+- Visualização de todos os funcionários cadastrados
+- Interface limpa e organizada
+- Preparado para filtros e busca (se aplicável)
 
 ### ✏️ Criação e Edição
 
-* Formulário reutilizável para criar ou editar funcionários
-* Validação de dados com **Zod**
-* Gerenciamento de estado com **React Hook Form**
-* Máscaras para inputs (ex: CPF, telefone)
+- Formulário reutilizável para criar ou editar funcionários
+- Validação de dados com **Zod**
+- Gerenciamento de estado com **React Hook Form**
+- Máscaras para inputs (ex: CPF, telefone)
 
 ---
 
@@ -44,22 +44,25 @@ O sistema permite visualizar, criar, editar e validar dados de funcionários com
 ```
 src/
   app/
-    page.tsx        # Listagem de funcionários
+    page.tsx                 # Listagem de funcionários
     edit/
       [id]/
-        page.tsx      # Criar / Editar funcionário
+        page.tsx             # Criar / Editar funcionário
 
   components/
-    ui/               # Componentes do shadcn
-    commmon/          # Componentes genéricos
-    Home/             # Componentes da HomePage
-    Form/             # Componentes do formulário
+    ui/                      # Componentes do shadcn
+    commmon/                 # Componentes genéricos
+    Home/                    # Componentes da HomePage
+    Form/                    # Componentes do formulário
 
   schemas/
-    form.schema.ts
+    form.schema.ts           # Zod form schema
 
   services/
-    employee.service.ts
+    employee.service.ts      # Chamadas da API
+
+  utils/
+    index.ts                 # Funções de apoio
 
 ```
 
@@ -111,11 +114,11 @@ A aplicação estará disponível em:
 
 ## 🧠 Padrões Utilizados
 
-* **Separação de responsabilidades**
-* **Componentização**
-* **Validação centralizada com Zod**
-* **Formulários controlados com React Hook Form**
-* **Estilização com Tailwind + utilitários inteligentes**
+- **Separação de responsabilidades**
+- **Componentização**
+- **Validação centralizada com Zod**
+- **Formulários controlados com React Hook Form**
+- **Estilização com Tailwind + utilitários inteligentes**
 
 ---
 

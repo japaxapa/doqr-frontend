@@ -13,11 +13,11 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import { FormatDateToString } from "@/app/utils";
+import { FormatDateToString } from "@/utils";
 import { Badge } from "../ui/badge";
-import { DeleteEmployee } from "@/app/services/employee.service";
 import { employee } from "@/types/employee";
 import { use, useEffect, useState } from "react";
+import { DeleteEmployee } from "@/services/employee.service";
 
 interface IHomeContent {
   employees: Promise<employee[]>;
@@ -45,6 +45,8 @@ export default function HomeContent({ employees }: IHomeContent) {
     }
   }, [searchTerm]);
 
+  // TODO toaster
+  // TODO modal para confirmação
   function onDelete(id: number) {
     if (id) {
       DeleteEmployee(id);
