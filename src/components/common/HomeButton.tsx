@@ -8,6 +8,7 @@ export default function HomeButton() {
       <Button
         variant={"ghost"}
         className="font-bold px-0"
+        id="home-btn"
       >
         <ArrowLeft /> Voltar
       </Button>

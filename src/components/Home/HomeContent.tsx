@@ -68,12 +68,13 @@ export default function HomeContent({ employees }: IHomeContent) {
           className="flex flex-1 justify-between"
         >
           <Input
+            id="search-bar"
             className="max-w-sm"
             placeholder="Buscar Funcionário..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Button>
+          <Button id="new-employee-btn">
             <Link
               href={`edit/new`}
               className="flex justify-center items-center gap-2"
@@ -102,30 +103,44 @@ export default function HomeContent({ employees }: IHomeContent) {
           </TableHeader>
 
           <TableBody>
-            {displayedEmployees.map((employee) => (
-              <TableRow key={employee.id}>
-                <TableCell>{employee.name}</TableCell>
-                <TableCell>{employee.email}</TableCell>
-                <TableCell>{employee.cpf}</TableCell>
-                <TableCell>{employee.phone}</TableCell>
-                <TableCell>{FormatDateToString(employee.dateOfBith)}</TableCell>
-                <TableCell>{employee.typeOfHiring}</TableCell>
-                <TableCell>
+            {displayedEmployees.map((employee, idx) => (
+              <TableRow
+                key={employee.id}
+                id={`employee-row-${idx}`}
+              >
+                <TableCell id={`employee-row-${idx}-name`}>
+                  {employee.name}
+                </TableCell>
+                <TableCell id={`employee-row-${idx}-email`}>
+                  {employee.email}
+                </TableCell>
+                <TableCell id={`employee-row-${idx}-cpf`}>
+                  {employee.cpf}
+                </TableCell>
+                <TableCell id={`employee-row-${idx}-phone`}>
+                  {employee.phone}
+                </TableCell>
+                <TableCell id={`employee-row-${idx}-dob`}>
+                  {FormatDateToString(employee.dateOfBith)}
+                </TableCell>
+                <TableCell id={`employee-row-${idx}-hiring`}>
+                  {employee.typeOfHiring}
+                </TableCell>
+                <TableCell id={`employee-row-${idx}-status`}>
                   <div className="flex justify-center items-center">
                     {employee.status ? (
-                      <Badge className="bg-green-300 text-black font-bold">
-                        Ativo
-                      </Badge>
+                      <Badge className="bg-green-300 text-black">Ativo</Badge>
                     ) : (
-                      <Badge className="bg-red-300 text-black font-bold">
-                        Inativo
-                      </Badge>
+                      <Badge className="bg-red-300 text-black">Inativo</Badge>
                     )}
                   </div>
                 </TableCell>
-                <TableCell>
+                <TableCell id={`employee-row-${idx}-actions`}>
                   <div className="flex justify-center items-center">
-                    <Button variant="ghost">
+                    <Button
+                      variant="ghost"
+                      id={`employee-row-${idx}-edit-btn`}
+                    >
                       <Link href={`edit/${employee.id}`}>
                         <ClipboardEdit />
                       </Link>
@@ -133,6 +148,7 @@ export default function HomeContent({ employees }: IHomeContent) {
                     <Button
                       variant="ghost"
                       onClick={() => onDelete(employee.id)}
+                      id={`employee-row-${idx}-delete-btn`}
                     >
                       <Trash2 />
                     </Button>

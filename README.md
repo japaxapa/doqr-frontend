@@ -4,6 +4,8 @@ Aplicação web desenvolvida com **Next.js**, **React 19** e **TypeScript** para
 
 O sistema permite visualizar, criar, editar e validar dados de funcionários com uma interface moderna e componentes reutilizáveis.
 
+
+
 ---
 
 ## 🚀 Tecnologias Utilizadas
@@ -19,6 +21,7 @@ O sistema permite visualizar, criar, editar e validar dados de funcionários com
 - **Lucide Icons** (ícones)
 - **clsx + tailwind-merge** (controle de classes)
 - **use-mask-input** (máscaras de input)
+- **Cypress** (testes end-to-end)
 
 ---
 
@@ -64,6 +67,9 @@ src/
   utils/
     index.ts                 # Funções de apoio
 
+cypress/
+  e2e/                       # Tetes e2e
+
 ```
 
 ---
@@ -82,6 +88,12 @@ npm run start
 
 # Lint do projeto
 npm run lint
+
+# Abrir Cypress (modo interativo)
+npx cypress open
+
+# Rodar testes em modo headless
+npx cypress run
 ```
 
 ---
@@ -101,10 +113,16 @@ cd fronted
 npm install
 ```
 
-### 3. Rodar o projeto
+### 3. Rodar aplicação
 
 ```bash
 npm run dev
+```
+
+### 4. Rodar testes E2E
+
+```bash
+npm run cy:open
 ```
 
 A aplicação estará disponível em:
@@ -122,9 +140,19 @@ A aplicação estará disponível em:
 
 ---
 
+## 🧠 Estratégia de Testes
+
+A aplicação utiliza **Cypress** para validar os fluxos críticos do sistema, garantindo:
+
+* Confiabilidade na criação e edição de dados
+* Prevenção de regressões
+* Testes próximos da experiência real do usuário
+
+---
+
 ## 👨‍💻 Autor
 
-Desenvolvido como projeto de prática para evolução em **frontend moderno**, focando em arquitetura escalável e boas práticas.
+Projeto desenvolvido com foco em boas práticas de frontend moderno, incluindo **testes automatizados**, arquitetura escalável e experiência do usuário.
 
 ---
 

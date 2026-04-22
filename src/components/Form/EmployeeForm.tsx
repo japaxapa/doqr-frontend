@@ -259,6 +259,7 @@ export default function EmployeeForm({ employee }: { employee?: employee }) {
               className="mt-4"
             >
               <Button
+                id="delete-employee-btn"
                 className="font-bold bg-delete p-4"
                 type="button"
                 onClick={() => onDelete(employee.id)}
@@ -266,6 +267,7 @@ export default function EmployeeForm({ employee }: { employee?: employee }) {
                 Excluir
               </Button>
               <Button
+                id="update-employee-btn"
                 className="font-bold p-4"
                 type="submit"
                 form="employee-form"
@@ -279,6 +281,7 @@ export default function EmployeeForm({ employee }: { employee?: employee }) {
               className="mt-4"
             >
               <Button
+                id="create-employee-btn"
                 className="font-bold p-4"
                 type="submit"
                 form="employee-form"
