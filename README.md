@@ -4,8 +4,6 @@ Aplicação web desenvolvida com **Next.js**, **React 19** e **TypeScript** para
 
 O sistema permite visualizar, criar, editar e validar dados de funcionários com uma interface moderna e componentes reutilizáveis.
 
-
-
 ---
 
 ## 🚀 Tecnologias Utilizadas
@@ -103,7 +101,7 @@ npx cypress run
 ### 1. Clonar o repositório
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/japaxapa/doqr-frontend.git
 cd fronted
 ```
 
@@ -144,9 +142,9 @@ A aplicação estará disponível em:
 
 A aplicação utiliza **Cypress** para validar os fluxos críticos do sistema, garantindo:
 
-* Confiabilidade na criação e edição de dados
-* Prevenção de regressões
-* Testes próximos da experiência real do usuário
+- Confiabilidade na criação e edição de dados
+- Prevenção de regressões
+- Testes próximos da experiência real do usuário
 
 ---
 
