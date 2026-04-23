@@ -102,7 +102,7 @@ npx cypress run
 
 ```bash
 git clone https://github.com/japaxapa/doqr-frontend.git
-cd fronted
+cd doqr-frontend
 ```
 
 ### 2. Instalar dependências
